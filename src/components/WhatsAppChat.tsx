@@ -449,13 +449,16 @@ export const WhatsAppChat: React.FC<WhatsAppChatProps> = ({
             <RefreshCw className="w-4 h-4" />
           </button>
 
-          <button 
-            onClick={() => window.open(`tel:${activePhone.replace(/[^0-9+]/g, '')}`)}
-            className="p-1.5 hover:bg-[#128C7E]/50 rounded-full transition-colors cursor-pointer" 
-            title="חייג"
+          {/* Clickable Call Contact Button */}
+          <a 
+            href={`tel:${activePhone.replace(/[^0-9+]/g, '')}`}
+            className="flex items-center gap-1.5 px-2.5 py-1 bg-[#128C7E] hover:bg-[#25D366] hover:text-slate-950 text-white rounded-lg transition-all font-semibold text-xs cursor-pointer shadow-xs" 
+            title={`התקשר לאיש קשר (${activeCustomerName}): ${activePhone}`}
+            aria-label={`Call contact ${activeCustomerName}`}
           >
-            <Phone className="w-4 h-4" />
-          </button>
+            <Phone className="w-3.5 h-3.5 fill-current" />
+            <span>התקשר לאיש קשר</span>
+          </a>
         </div>
       </header>
 

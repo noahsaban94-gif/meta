@@ -33,6 +33,7 @@ import { WhatsAppDoodleBg } from './WhatsAppDoodleBg';
 import { MessageContent } from './MessageContent';
 import { SettingsModal, CloneSettings } from './SettingsModal';
 import { AboutModal } from './AboutModal';
+import { ContactInfoModal } from './ContactInfoModal';
 import { soundSynthesizer } from '../../utils/audioSynthesizer';
 import { 
   processClientMessage, 
@@ -227,6 +228,7 @@ export const WhatsAppCloneApp: React.FC<WhatsAppCloneAppProps> = ({ onOpenStudio
   // Modals State
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [isAboutOpen, setIsAboutOpen] = useState(false);
+  const [isContactInfoOpen, setIsContactInfoOpen] = useState(false);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -660,16 +662,18 @@ export const WhatsAppCloneApp: React.FC<WhatsAppCloneAppProps> = ({ onOpenStudio
 
               {/* Active Avatar */}
               <div 
-                onClick={() => setIsAboutOpen(true)}
-                className={`w-10 h-10 rounded-full ${activeContact.avatarBg} text-white flex items-center justify-center font-bold text-lg shrink-0 cursor-pointer shadow-xs`}
+                onClick={() => setIsContactInfoOpen(true)}
+                className={`w-10 h-10 rounded-full ${activeContact.avatarBg} text-white flex items-center justify-center font-bold text-lg shrink-0 cursor-pointer shadow-xs hover:opacity-90 transition-opacity`}
+                title="הצג פרטי איש קשר"
               >
                 <span>{activeContact.avatarText}</span>
               </div>
 
               {/* Title & Typing Status */}
               <div 
-                onClick={() => setIsAboutOpen(true)}
+                onClick={() => setIsContactInfoOpen(true)}
                 className="cursor-pointer min-w-0"
+                title="הצג פרטי איש קשר"
               >
                 <div className="flex items-center gap-1.5">
                   <h2 className="font-bold text-sm md:text-base leading-tight truncate">
@@ -697,14 +701,16 @@ export const WhatsAppCloneApp: React.FC<WhatsAppCloneAppProps> = ({ onOpenStudio
             </div>
 
             {/* Header Right Action Icons */}
-            <div className="flex items-center gap-1 text-white md:text-slate-600 dark:text-[#aebac1]">
-              {/* Direct Phone Call to Rami */}
+            <div className="flex items-center gap-2 text-white md:text-slate-600 dark:text-[#aebac1]">
+              {/* Clickable 'Call Contact' Button */}
               <a
-                href="tel:0508860896"
-                className="p-2 rounded-full hover:bg-black/10 dark:hover:bg-white/10 transition-colors"
-                title="חיוג ישיר לראמי מסארווה (050-886-0896)"
+                href={`tel:${activeContact.phone.replace(/[^0-9+]/g, '')}`}
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/20 hover:bg-white/30 md:bg-[#008069] md:hover:bg-[#00a884] text-white transition-all font-semibold text-xs shadow-xs border border-white/30 md:border-transparent active:scale-95 cursor-pointer"
+                title={`התקשר לאיש קשר (${activeContact.name}): ${activeContact.phone}`}
+                aria-label={`Call contact ${activeContact.name}`}
               >
-                <Phone className="w-5 h-5" />
+                <Phone className="w-3.5 h-3.5 fill-current" />
+                <span className="whitespace-nowrap font-bold">התקשר לאיש קשר</span>
               </a>
 
               {/* Sound Toggle (Header) */}
@@ -1090,6 +1096,13 @@ export const WhatsAppCloneApp: React.FC<WhatsAppCloneAppProps> = ({ onOpenStudio
       <AboutModal
         isOpen={isAboutOpen}
         onClose={() => setIsAboutOpen(false)}
+      />
+
+      {/* Contact Details & Direct Call Modal */}
+      <ContactInfoModal
+        isOpen={isContactInfoOpen}
+        onClose={() => setIsContactInfoOpen(false)}
+        contact={activeContact}
       />
     </div>
   );
