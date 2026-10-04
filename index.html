@@ -3,26 +3,40 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover, user-scalable=yes" />
-    <meta name="theme-color" content="#25D366" />
+    <meta name="theme-color" content="#008069" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-    <meta name="apple-mobile-web-app-title" content="Saban Studio" />
+    <meta name="apple-mobile-web-app-title" content="נועה סבן" />
     <link rel="manifest" href="/manifest.json" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png" />
-    <title>Saban WhatsApp Studio</title>
-    <meta name="description" content="WhatsApp Menu Studio and incoming webhook bridge for H. Saban Building Materials (+972508860896) with JONI integration." />
-    <meta property="og:title" content="Saban WhatsApp Studio" />
-    <meta property="og:description" content="WhatsApp Menu Studio and incoming webhook bridge for H. Saban Building Materials (+972508860896) with JONI integration." />
+    <link rel="icon" type="image/png" sizes="512x512" href="/icon-512.png" />
+    <title>נועה AI • ח. סבן חומרי בניין (1994) בע״מ</title>
+    <meta name="description" content="סוכנת הסידור והלוגיסטיקה האוטונומית של ח. סבן חומרי בניין (1994) בע״מ בוואטסאפ: הובלות מנוף, אגרגטים, מלט, בלוקים ומכולות 8 קוב." />
+    <meta property="og:title" content="נועה AI • ח. סבן חומרי בניין" />
+    <meta property="og:description" content="סוכנת הסידור והלוגיסטיקה האוטונומית של ח. סבן חומרי בניין (1994) בע״מ בוואטסאפ." />
     <meta property="og:type" content="website" />
     <meta name="twitter:card" content="summary_large_image" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;500;600;700;800&family=Rubik:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
   </head>
-  <body class="bg-slate-950 text-slate-100 antialiased font-['Assistant',sans-serif]">
+  <body class="bg-[#efeae2] dark:bg-[#0b141a] text-[#111b21] dark:text-[#e9edef] antialiased selection:bg-[#00a884]/30">
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
+    <script>
+      // Register PWA Service Worker
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js')
+            .then((reg) => {
+              console.log('✅ Saban PWA Service Worker Registered:', reg.scope);
+            })
+            .catch((err) => {
+              console.warn('Service Worker registration skipped/failed:', err);
+            });
+        });
+      }
+    </script>
   </body>
 </html>
-

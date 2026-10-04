@@ -5,6 +5,12 @@
   --sab: env(safe-area-inset-bottom, 0px);
   --sal: env(safe-area-inset-left, 0px);
   --sar: env(safe-area-inset-right, 0px);
+
+  /* WhatsApp Official Colors */
+  --wa-green-primary: #008069;
+  --wa-green-accent: #00a884;
+  --wa-green-light: #25d366;
+  --wa-blue-tick: #53bdeb;
 }
 
 /* Force 16px minimum on all form elements to prevent auto-zooming on Samsung & iOS devices */
@@ -31,6 +37,70 @@ html, body {
   overscroll-behavior-y: none;
   -webkit-tap-highlight-color: transparent;
   touch-action: manipulation;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Assistant", "Rubik", sans-serif;
+}
+
+/* WhatsApp Doodle Background Pattern Overlay */
+.whatsapp-doodle-light {
+  background-color: #efeae2;
+  background-image: radial-gradient(#d1c7b7 0.75px, transparent 0.75px), radial-gradient(#d1c7b7 0.75px, #efeae2 0.75px);
+  background-size: 30px 30px;
+  background-position: 0 0, 15px 15px;
+}
+
+.whatsapp-doodle-dark {
+  background-color: #0b141a;
+  background-image: radial-gradient(#182229 0.75px, transparent 0.75px), radial-gradient(#182229 0.75px, #0b141a 0.75px);
+  background-size: 30px 30px;
+  background-position: 0 0, 15px 15px;
+}
+
+/* Subtle WhatsApp Bubble Tails (RTL: Incoming Right, Outgoing Left) */
+.bubble-incoming-tail {
+  position: relative;
+  border-top-right-radius: 0px !important;
+}
+.bubble-incoming-tail::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: -8px;
+  width: 0;
+  height: 0;
+  border-top: 10px solid currentColor;
+  border-right: 8px solid transparent;
+}
+
+.bubble-outgoing-tail {
+  position: relative;
+  border-top-left-radius: 0px !important;
+}
+.bubble-outgoing-tail::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -8px;
+  width: 0;
+  height: 0;
+  border-top: 10px solid currentColor;
+  border-left: 8px solid transparent;
+}
+
+/* WhatsApp Code / Backtick Capsule Styling */
+.wa-code-capsule {
+  display: inline-block;
+  padding: 1px 6px;
+  margin: 0 2px;
+  border-radius: 6px;
+  font-family: "JetBrains Mono", Consolas, monospace;
+  font-weight: 600;
+  font-size: 0.88em;
+  background-color: rgba(0, 0, 0, 0.08);
+  color: inherit;
+  direction: ltr;
+}
+.dark .wa-code-capsule {
+  background-color: rgba(255, 255, 255, 0.12);
 }
 
 @layer utilities {
@@ -40,29 +110,23 @@ html, body {
   }
   /* Hide scrollbar for IE, Edge and Firefox */
   .no-scrollbar {
-    -ms-overflow-style: none;  /* IE and Edge */
-    scrollbar-width: none;  /* Firefox */
+    -ms-overflow-style: none;
+    scrollbar-width: none;
   }
 }
 
-@keyframes dash {
-  to {
-    stroke-dashoffset: -100;
-  }
-}
-
-/* Custom scrollbars */
+/* Custom scrollbars matching WhatsApp web */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: #090d16;
+  background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: #1e293b;
+  background: rgba(134, 150, 160, 0.3);
   border-radius: 9999px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #334155;
+  background: rgba(134, 150, 160, 0.5);
 }

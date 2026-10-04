@@ -7,6 +7,7 @@ import { usePWAInstall } from './hooks/usePWAInstall';
 import { StudioCanvas } from './components/Studio/StudioCanvas';
 import { ChatView } from './components/Chat/ChatView';
 import { WhatsAppChat } from './components/WhatsAppChat';
+import { WhatsAppCloneApp } from './components/WhatsAppClone/WhatsAppCloneApp';
 import { VisualBranchBuilder } from './components/Builder/VisualBranchBuilder';
 import { LogsView } from './components/Logs/LogsView';
 import { DashboardView } from './components/Dashboard/DashboardView';
@@ -30,6 +31,7 @@ import {
 } from './types/studio';
 
 export default function App() {
+  const [appMode, setAppMode] = useState<'whatsapp_clone' | 'studio'>('whatsapp_clone');
   const [activeTab, setActiveTab] = useState<'studio' | 'builder' | 'chat' | 'logs' | 'dashboard' | 'settings' | 'tools'>('builder');
   const [chatViewMode, setChatViewMode] = useState<'whatsapp' | 'crm'>('whatsapp');
   const [flow, setFlow] = useState<FlowTree>(DEFAULT_FLOW);
@@ -152,8 +154,35 @@ export default function App() {
 
   const pendingTasksCount = tasks.filter(t => t.status === 'pending').length;
 
+  if (appMode === 'whatsapp_clone') {
+    return (
+      <div className="h-screen w-screen overflow-hidden flex flex-col relative font-['Assistant','Rubik',sans-serif]">
+        {/* Android/iOS PWA Install Banner */}
+        <PWAInstallBanner
+          isInstallable={isInstallable}
+          onInstall={promptInstall}
+          isIOS={isIOS}
+        />
+
+        {/* Pixel-Perfect WhatsApp Clone PWA App */}
+        <WhatsAppCloneApp onOpenStudio={() => setAppMode('studio')} />
+      </div>
+    );
+  }
+
   return (
     <div className="flex flex-col md:flex-row h-screen w-screen overflow-hidden bg-slate-950 text-slate-100 font-['Assistant',sans-serif]">
+      {/* Studio Top Return Banner */}
+      <div className="md:hidden bg-[#008069] text-white px-3 py-2 flex items-center justify-between text-xs shrink-0">
+        <span className="font-bold">סטודיו ובונה ענפים סבן</span>
+        <button
+          onClick={() => setAppMode('whatsapp_clone')}
+          className="px-2.5 py-1 bg-white text-[#008069] rounded-lg font-bold"
+        >
+          💬 חזרה ל-WhatsApp
+        </button>
+      </div>
+
       {/* Mobile Top Header */}
       <MobileHeader
         onOpenSimulator={() => setIsSimulatorOpen(true)}
@@ -178,6 +207,19 @@ export default function App() {
 
       {/* Main View Area */}
       <main className="flex-1 h-full overflow-hidden flex flex-col relative">
+        {/* Top return banner on Desktop */}
+        <div className="hidden md:flex bg-[#008069] text-white px-4 py-2 items-center justify-between text-xs shrink-0 shadow-sm">
+          <div className="flex items-center gap-2 font-bold">
+            <span>🏗️ ח. סבן חומרי בניין (1994) בע״מ • לוח בקרה, סידור ובונה ענפים</span>
+          </div>
+          <button
+            onClick={() => setAppMode('whatsapp_clone')}
+            className="flex items-center gap-1.5 px-3.5 py-1.5 bg-white text-[#008069] hover:bg-emerald-50 rounded-xl font-bold shadow-xs transition-all text-xs"
+          >
+            <span>💬 חזרה לממשק WhatsApp (נועה AI)</span>
+          </button>
+        </div>
+
         {activeTab === 'builder' && (
           <VisualBranchBuilder 
             onOpenSimulator={() => setIsSimulatorOpen(true)}
@@ -235,7 +277,7 @@ export default function App() {
             {/* Content View */}
             <div className="flex-1 overflow-hidden">
               {chatViewMode === 'whatsapp' ? (
-                <WhatsAppChat initialRecipient={settings.businessNumber} />
+                <WhatsAppCloneApp onOpenStudio={() => setActiveTab('builder')} />
               ) : (
                 <ChatView
                   conversations={conversations}
